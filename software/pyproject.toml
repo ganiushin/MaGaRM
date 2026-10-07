@@ -1,0 +1,17 @@
+[project]
+name = "magarm"
+version = "0.1.0"
+description = "MaGaRM arm control over CAN (Damiao + RobStride EL05)"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = ["python-can>=4.3", "numpy"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["magarm"]

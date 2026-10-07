@@ -1,0 +1,272 @@
+[
+ {
+  "file": "L4_right",
+  "note": "forearm, J4 motor side",
+  "volume_cm3": 150.4,
+  "size_mm": [
+   240.0,
+   43.6,
+   124.0
+  ]
+ },
+ {
+  "file": "L3_motor",
+  "note": "upper arm, motor side",
+  "volume_cm3": 144.5,
+  "size_mm": [
+   265.0,
+   32.5,
+   75.0
+  ]
+ },
+ {
+  "file": "gripper_crank",
+  "note": "crank on the gripper motor",
+  "volume_cm3": 10.5,
+  "size_mm": [
+   10.5,
+   65.2,
+   49.3
+  ]
+ },
+ {
+  "file": "L4_left",
+  "note": "forearm, bearing side",
+  "volume_cm3": 143.9,
+  "size_mm": [
+   240.0,
+   41.6,
+   124.0
+  ]
+ },
+ {
+  "file": "L3_back",
+  "note": "upper arm, back side",
+  "volume_cm3": 162.2,
+  "size_mm": [
+   265.0,
+   37.6,
+   75.0
+  ]
+ },
+ {
+  "file": "L7_cover",
+  "note": "gripper rear cover",
+  "volume_cm3": 9.5,
+  "size_mm": [
+   14.0,
+   46.0,
+   46.0
+  ]
+ },
+ {
+  "file": "L5_back",
+  "note": "wrist drum, roof",
+  "volume_cm3": 23.1,
+  "size_mm": [
+   72.0,
+   55.3,
+   63.2
+  ]
+ },
+ {
+  "file": "L5_motor",
+  "note": "wrist drum, J5 plate",
+  "volume_cm3": 32.8,
+  "size_mm": [
+   98.5,
+   59.8,
+   69.6
+  ]
+ },
+ {
+  "file": "L2_base",
+  "note": "J1 turntable, J2 fork",
+  "volume_cm3": 98.7,
+  "size_mm": [
+   69.0,
+   76.8,
+   99.0
+  ]
+ },
+ {
+  "file": "camera_bracket",
+  "note": "wrist camera bracket",
+  "volume_cm3": 45.7,
+  "size_mm": [
+   57.8,
+   80.0,
+   98.5
+  ]
+ },
+ {
+  "file": "L5_shake",
+  "note": "J5 motor cover",
+  "volume_cm3": 18.8,
+  "size_mm": [
+   60.0,
+   50.0,
+   48.0
+  ]
+ },
+ {
+  "file": "L1_base",
+  "note": "base",
+  "volume_cm3": 179.9,
+  "size_mm": [
+   95.0,
+   95.0,
+   79.5
+  ]
+ },
+ {
+  "file": "handle_m",
+  "note": "teleop handle, mirrored (optional)",
+  "volume_cm3": 16.0,
+  "size_mm": [
+   8.0,
+   40.0,
+   87.0
+  ]
+ },
+ {
+  "file": "gripper_frame",
+  "note": "jaw frame / rail carrier",
+  "volume_cm3": 29.4,
+  "size_mm": [
+   25.0,
+   191.0,
+   60.0
+  ]
+ },
+ {
+  "file": "L5_side_plate",
+  "note": "side plate at the wrist drum",
+  "volume_cm3": 12.6,
+  "size_mm": [
+   7.1,
+   50.0,
+   62.2
+  ]
+ },
+ {
+  "file": "L2_cover",
+  "note": "J2 fork cover",
+  "volume_cm3": 41.6,
+  "size_mm": [
+   69.0,
+   10.5,
+   85.0
+  ]
+ },
+ {
+  "file": "handle",
+  "note": "teleop handle (optional)",
+  "volume_cm3": 16.0,
+  "size_mm": [
+   8.0,
+   40.0,
+   87.0
+  ]
+ },
+ {
+  "file": "jaw_pad",
+  "note": "finger pad (TPU recommended)",
+  "volume_cm3": 5.4,
+  "size_mm": [
+   48.0,
+   12.2,
+   35.9
+  ]
+ },
+ {
+  "file": "jaw_pad_m",
+  "note": "finger pad (mirrored)",
+  "volume_cm3": 5.4,
+  "size_mm": [
+   48.0,
+   12.2,
+   35.9
+  ]
+ },
+ {
+  "file": "camera_clamp",
+  "note": "wrist camera clamp",
+  "volume_cm3": 10.2,
+  "size_mm": [
+   15.0,
+   80.0,
+   29.5
+  ]
+ },
+ {
+  "file": "jaw_1_m",
+  "note": "jaw (mirrored)",
+  "volume_cm3": 19.9,
+  "size_mm": [
+   55.9,
+   30.7,
+   42.0
+  ]
+ },
+ {
+  "file": "L6_link",
+  "note": "J5-J6 link",
+  "volume_cm3": 19.6,
+  "size_mm": [
+   31.6,
+   35.0,
+   56.5
+  ]
+ },
+ {
+  "file": "gripper_link_1",
+  "note": "crank-jaw link",
+  "volume_cm3": 2.5,
+  "size_mm": [
+   5.0,
+   54.9,
+   17.2
+  ]
+ },
+ {
+  "file": "L7_base",
+  "note": "J6 output flange",
+  "volume_cm3": 10.6,
+  "size_mm": [
+   14.0,
+   46.0,
+   46.0
+  ]
+ },
+ {
+  "file": "jaw_1",
+  "note": "jaw",
+  "volume_cm3": 19.9,
+  "size_mm": [
+   55.9,
+   30.7,
+   42.0
+  ]
+ },
+ {
+  "file": "gripper_link_2",
+  "note": "crank-jaw link",
+  "volume_cm3": 2.5,
+  "size_mm": [
+   5.0,
+   54.9,
+   17.2
+  ]
+ },
+ {
+  "file": "L7_motor",
+  "note": "gripper motor cup",
+  "volume_cm3": 14.9,
+  "size_mm": [
+   33.0,
+   60.0,
+   60.0
+  ]
+ }
+]

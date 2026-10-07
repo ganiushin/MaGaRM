@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.egg-info/
+.pytest_cache/
+# intermediate assemblies (100-200 MB each), rebuilt by cad/scripts/build_all.sh
+cad/build/

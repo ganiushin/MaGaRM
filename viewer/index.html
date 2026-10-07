@@ -1,0 +1,210 @@
+<title>MaGaRM</title>
+<style>
+/* Layout: full-height 3D stage with a side panel (stacks under the stage on phones) */
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --fg:#1b2129; --muted:#5d6876; --line:#d5dbe2;
+  --stage:#e4e8ed; --accent:#2f74d0; --motor:#e8782a; --chip:#f2f5f8;
+  --font-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161b; --panel:#191e25; --fg:#e6eaef; --muted:#97a2b0; --line:#2b333d;
+  --stage:#0f1317; --accent:#5b9bf0; --motor:#f08a3e; --chip:#212833; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161b; --panel:#191e25; --fg:#e6eaef; --muted:#97a2b0; --line:#2b333d;
+  --stage:#0f1317; --accent:#5b9bf0; --motor:#f08a3e; --chip:#212833; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:14px}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 320px;height:100%;gap:0}
+.stage{position:relative;background:var(--stage);min-height:60vh}
+#c{display:block;width:100%;height:100%}
+.hud{position:absolute;left:16px;top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.hud button{font:500 13px var(--font-ui);padding:6px 10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;cursor:pointer}
+.hud button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.hud button:focus-visible,.parts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pick{position:absolute;left:16px;bottom:12px;font:13px var(--font-mono);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:6px;max-width:calc(100% - 32px)}
+.load{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font:13px var(--font-mono)}
+aside{background:var(--panel);border-left:1px solid var(--line);overflow:auto;padding-inline:16px;padding-block:16px;display:flex;flex-direction:column;gap:16px;min-width:0}
+h1{font-size:18px;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;line-height:1.45}
+h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.legend{display:flex;flex-direction:column;gap:6px}
+.legend span{display:flex;align-items:center;gap:8px}
+.sw{width:12px;height:12px;border-radius:3px;flex:none}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{padding:5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;padding-left:8px}
+.parts{display:flex;flex-wrap:wrap;gap:6px}
+.parts button{font:12px var(--font-mono);padding:4px 7px;border-radius:5px;border:1px solid var(--line);background:var(--chip);color:var(--fg);cursor:pointer}
+.parts button.mod{border-color:var(--accent)}
+.parts button.mot{border-color:var(--motor)}
+.parts button[aria-pressed="false"]{opacity:.4;text-decoration:line-through}
+ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
+.warn li{color:var(--muted)}
+@media (max-width:760px){.app{grid-template-columns:1fr;grid-template-rows:65vh auto;height:auto}aside{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<div class="app">
+  <div class="stage">
+    <canvas id="c" aria-label="3D-модель руки"></canvas>
+    <div class="load" id="load">Загрузка модели, ~10 МБ…</div>
+    <div class="hud">
+      <button id="bXray" aria-pressed="false">Прозрачные корпуса</button>
+      <button id="bMod" aria-pressed="false">Только новые детали</button>
+      <button id="bReset">Вид по умолчанию</button>
+    </div>
+    <div class="pick" id="pick">Кликните по детали, чтобы увидеть её название</div>
+  </div>
+  <aside>
+    <div>
+      <h1>MaGaRM</h1>
+      <p class="sub">Шестиосевая рука с захватом и камерой на запястье, вся из пластика. Моторы Damiao и RobStride на одной CAN-шине. Вид в нулевой позе, J3 приоткрыт на 2° (упор складывания).</p>
+    </div>
+    <div>
+      <h2>Цвета</h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--motor)"></i>Моторы</span>
+        <span><i class="sw" style="background:var(--accent)"></i>Детали, сделанные под эти моторы</span>
+        <span><i class="sw" style="background:#d7dce4;border:1px solid var(--line)"></i>Остальные печатные детали</span>
+        <span><i class="sw" style="background:#2d3037"></i>Крышки, подушки пальцев</span>
+      </div>
+    </div>
+    <div>
+      <h2>Моторы</h2>
+      <table>
+        <tr><td>J1 основание, J2 плечо, J3 локоть</td><td>DM-J4340P</td></tr>
+        <tr><td>J4 наклон запястья</td><td>DM-J4340</td></tr>
+        <tr><td>J5, J6 запястье</td><td>RobStride EL05</td></tr>
+        <tr><td>Захват</td><td>DM-H3510</td></tr>
+      </table>
+    </div>
+    <div>
+      <h2>Узлы</h2>
+      <table>
+        <tr><td>Основание: расточка под фланец Ø38, окна под разъёмы XT30</td><td>башня +7 мм</td></tr>
+        <tr><td>Вилки J2/J3 и плечо шире, зазоры с обеих сторон</td><td>1,75 мм</td></tr>
+        <tr><td>Запястье: корпус-барабан, мотор на 4 задних винтах</td><td>Ø63</td></tr>
+        <tr><td>Захват: стакан под H3510, рама на фланце через термовставки</td><td>Ø46 / Ø60</td></tr>
+        <tr><td>Выходы моторов: 6×M3 на Ø27 и 3 штифта Ø4 (J1–J4)</td><td>Ø24</td></tr>
+      </table>
+    </div>
+    <div>
+      <h2>Ходы суставов</h2>
+      <table>
+        <tr><td>J1</td><td>±160°</td></tr>
+        <tr><td>J2</td><td>0…210°</td></tr>
+        <tr><td>J3</td><td>−230…−2°</td></tr>
+        <tr><td>J4</td><td>−50…+90°</td></tr>
+        <tr><td>J5, J6, захват</td><td>±90°</td></tr>
+      </table>
+    </div>
+    <div>
+      <h2>Детали</h2>
+      <div class="parts" id="parts"></div>
+    </div>
+    <div class="warn">
+      <h2>Проверено</h2>
+      <ul>
+        <li>Моторы ни с чем не пересекаются (по каждому телу модели).</li>
+        <li>Винты и штифты выходов совпадают с отверстиями деталей.</li>
+        <li>Повороты суставов проверены на столкновения во всём ходе.</li>
+        <li>Все печатные STL герметичны.</li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+
+const MOD = new Set(['L1_base','L2_base','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L5_side_plate','L7_motor','gripper_frame','gripper_crank']);
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1, 1, 5000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x444a55, 1.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1.8); sun.position.set(300, 500, 400); scene.add(sun);
+const fill = new THREE.DirectionalLight(0xffffff, 0.6); fill.position.set(-400, 200, -300); scene.add(fill);
+
+const root = new THREE.Group(); root.rotation.x = -Math.PI/2; scene.add(root);   // model is Z-up
+const meshes = [];
+let home = null;
+
+function resize(){
+  const r = canvas.parentElement.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width / Math.max(r.height,1); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas.parentElement); resize();
+
+function b64(s, Type){ const bin = atob(s); const u = new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) u[i] = bin.charCodeAt(i); return new Type(u.buffer); }
+fetch('model.json').then(r => { if(!r.ok) throw 0; return r.json(); }).then(data => {
+  for (const p of data.parts){
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(b64(p.pos, Float32Array), 3));
+    g.setIndex(new THREE.BufferAttribute(b64(p.idx, Uint32Array), 1));
+    g.computeVertexNormals();
+    const col = new THREE.Color(p.color[0]/255, p.color[1]/255, p.color[2]/255).convertSRGBToLinear();
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({color: col, roughness:.55, metalness:.08, side: THREE.DoubleSide}));
+    m.userData.part = p.name.replace(/_\d+$/, '');
+    root.add(m); meshes.push(m);
+  }
+  const box = new THREE.Box3().setFromObject(root);
+  const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3()).length();
+  controls.target.copy(c);
+  camera.position.set(c.x + s*0.75, c.y + s*0.45, c.z + s*0.85);
+  camera.near = s/200; camera.far = s*20; camera.updateProjectionMatrix();
+  home = {p: camera.position.clone(), t: c.clone()};
+  document.getElementById('load').hidden = true;
+  buildList();
+}).catch(() => { document.getElementById('load').textContent = 'Не удалось загрузить модель'; });
+
+function kind(n){ return /^(DM|EL05)/.test(n) ? 'mot' : (MOD.has(n) ? 'mod' : ''); }
+function buildList(){
+  const names = [...new Set(meshes.map(m => m.userData.part))].sort((a,b)=>{
+    const ka=kind(a), kb=kind(b); const o={mot:0,mod:1,'':2}; return o[ka]-o[kb] || a.localeCompare(b);});
+  const box = document.getElementById('parts');
+  for (const n of names){
+    const b = document.createElement('button'); b.textContent = n; b.className = kind(n); b.setAttribute('aria-pressed','true');
+    b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on));
+      meshes.filter(m => m.userData.part === n).forEach(m => m.visible = on); };
+    box.appendChild(b);
+  }
+}
+
+const bX = document.getElementById('bXray'), bM = document.getElementById('bMod');
+bX.onclick = () => { const on = bX.getAttribute('aria-pressed') !== 'true'; bX.setAttribute('aria-pressed', String(on));
+  meshes.forEach(m => { const k = kind(m.userData.part); const t = on && k !== 'mot';
+    m.material.transparent = t; m.material.opacity = t ? 0.18 : 1; m.material.depthWrite = !t; m.material.needsUpdate = true; }); };
+bM.onclick = () => { const on = bM.getAttribute('aria-pressed') !== 'true'; bM.setAttribute('aria-pressed', String(on));
+  meshes.forEach(m => { const k = kind(m.userData.part); m.visible = !on || k !== ''; });
+  document.querySelectorAll('.parts button').forEach(b => b.setAttribute('aria-pressed', String(!on || b.className !== ''))); };
+document.getElementById('bReset').onclick = () => { if(!home) return; camera.position.copy(home.p); controls.target.copy(home.t); };
+
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(); let picked = null, down = null;
+canvas.addEventListener('pointerdown', e => down = [e.clientX, e.clientY]);
+canvas.addEventListener('pointerup', e => {
+  if (!down || Math.hypot(e.clientX-down[0], e.clientY-down[1]) > 4) return;
+  const r = canvas.getBoundingClientRect();
+  ptr.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+  ray.setFromCamera(ptr, camera);
+  const hit = ray.intersectObjects(meshes.filter(m => m.visible), false)[0];
+  if (picked) picked.forEach(m => m.material.emissive.setHex(0x000000));
+  if (!hit){ picked = null; document.getElementById('pick').textContent = 'Кликните по детали, чтобы увидеть её название'; return; }
+  const n = hit.object.userData.part; picked = meshes.filter(m => m.userData.part === n);
+  picked.forEach(m => m.material.emissive.setHex(0x334466));
+  const k = kind(n); document.getElementById('pick').textContent = n + (k==='mot' ? ' · мотор' : k==='mod' ? ' · сделана под эти моторы' : '');
+});
+
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+</script>
