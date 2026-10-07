@@ -123,7 +123,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
-const MOD = new Set(['L1_base','L2_base','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L5_side_plate','L7_motor','gripper_frame','gripper_crank']);
+const MOD = new Set(['L1_base','L2_base','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L7_motor','gripper_frame','gripper_crank']);
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));

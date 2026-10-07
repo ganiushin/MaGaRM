@@ -20,7 +20,6 @@ PRINTED = {
     'L5_motor': ('L5_motor', 'wrist drum, J5 plate'),
     'L5_back': ('L5_back', 'wrist drum, roof'),
     'L5_shake': ('L5_shake', 'J5 motor cover'),
-    'Part_27': ('L5_side_plate', 'side plate at the wrist drum'),
     'L6_link': ('L6_link', 'J5-J6 link'),
     'L7_base': ('L7_base', 'J6 output flange'),
     'L7_cover': ('L7_cover', 'gripper rear cover'),

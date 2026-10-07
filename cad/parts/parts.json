@@ -72,7 +72,7 @@
  {
   "file": "L5_motor",
   "note": "wrist drum, J5 plate",
-  "volume_cm3": 32.8,
+  "volume_cm3": 32.2,
   "size_mm": [
    98.5,
    59.8,
@@ -137,16 +137,6 @@
    25.0,
    191.0,
    60.0
-  ]
- },
- {
-  "file": "L5_side_plate",
-  "note": "side plate at the wrist drum",
-  "volume_cm3": 12.6,
-  "size_mm": [
-   7.1,
-   50.0,
-   62.2
   ]
  },
  {

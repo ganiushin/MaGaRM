@@ -107,11 +107,10 @@ moved = []
 for p in parts:
     if p[0] not in ARM:
         p[1] = p[1].moved(Location((SX, 0, 0))); moved.append(p[0])
-p = get('Part_27'); r = p[1] - ycyl(RO + 0.2, -40, 40)
-assert abs(r.volume - p[1].volume) < 150, 'Part_27 recut too large'
-p[1] = r
-log.append(f'J5 unit (L5_shake, J5/J6 motors, L6_link, Part_27, gripper, camera: {len(moved)} parts) moved {SX} in X; '
-           f'Part_27 arc re-cut to the drum (r {RO + 0.2})')
+# Part_27 (a plate between the drum and L6_link, 0.2 mm from both) locks J5 from ±15°: removed from the arm
+parts = [p for p in parts if p[0] != 'Part_27']
+log.append(f'J5 unit (L5_shake, J5/J6 motors, L6_link, gripper, camera: {len(moved) - 1} parts) moved {SX} in X; '
+           f'Part_27 removed (it blocked J5)')
 
 # ---------------- housing ----------------
 L5m, L5b = get('L5_motor')[1], get('L5_back')[1]
@@ -150,6 +149,13 @@ Hb = Box(400, 400, 400, align=(Align.MIN, Align.CENTER, Align.CENTER)).moved(Loc
 boss = ycyl(11.0, YR - 0.1, YH + 0.1)
 back = check(fuse(body & Hb, A_b) - boss, 'L5_back')
 motor_half = check(fuse(body - Hb, body & Hb & boss, A_m, journal), 'L5_motor')
+# clearance for the J6 motor sweeping about the J5 axis (±90°): concentric relief R 24.5 in the drum side only
+J5X = -53.2 + SX
+relief = Solid.make_cylinder(24.5, 48.0, Plane(origin=(J5X, 0, AZ - 23.5), z_dir=(0, 0, 1))) \
+    & Box(10, 200, 100, align=(Align.MIN, Align.CENTER, Align.CENTER)).moved(Location((AX - RO - 1.0, 0, AZ)))
+v0 = motor_half.volume
+motor_half = check(motor_half - relief, 'L5_motor')
+log.append(f'L5_motor: J6-motor sweep relief R24.5 about the J5 axis ({v0 - motor_half.volume:.0f} mm3), J5 free ±90°')
 get('L5_motor')[1] = motor_half; get('L5_back')[1] = back
 parts = [p for p in parts if p[0] != 'EL05_L4'] + [['DM4340-J4', motor]]
 log.append(f'L5_motor/L5_back: drum Ø{2*RO:.1f} (bore Ø{2*RI:.1f}) y ±{YH}, roof tangent to the drum from the plate end, '
@@ -158,7 +164,7 @@ log.append(f'L5_motor/L5_back: drum Ø{2*RO:.1f} (bore Ø{2*RI:.1f}) y ±{YH}, r
 # ---------------- export ----------------
 kids = [Compound([s], label=nm) for nm, s in parts]
 export_step(Compound(children=kids, label='magarm_step3_J4'), OUT + '/magarm_step3_J4.step')
-for nm in ('L4_right', 'L4_left', 'L5_motor', 'L5_back', 'Part_27'):
+for nm in ('L4_right', 'L4_left', 'L5_motor', 'L5_back'):
     export_step(get(nm)[1], f'{OUT}/{nm}.step'); export_stl(get(nm)[1], f'{OUT}/{nm}.stl', tolerance=0.02, angular_tolerance=0.1)
 open(OUT + '/step3_log.txt', 'w').write('\n'.join(log))
 print('\n'.join(log))

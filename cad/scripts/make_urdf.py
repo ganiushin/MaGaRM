@@ -30,7 +30,7 @@ LINKS = {
     'link1': ['L2_base', 'L2_cover'],
     'link2': ['L3-motor', 'L3_back', '6705', 'DM4340P-J2', 'DM4340P-J3'],
     'link3': ['L4_right', 'L4_left', '6704'],
-    'link4': ['L5_motor', 'L5_back', 'Part_27', 'DM4340-J4', 'L5_shake', 'EL05_L5'],
+    'link4': ['L5_motor', 'L5_back', 'DM4340-J4', 'L5_shake', 'EL05_L5'],
     'link5': ['L6_link', 'EL05_L6'],
     'link6': ['L7_base', 'L7_cover', 'L7_motor', 'DM-H3510-J7', 'rack', 'MANIFOLD_SOLID_BREP_39_1', 'MANIFOLD_SOLID_BREP_40_1',
               'Part_1', 'Part_2', 'MD0603901_exportMA2', 'ID_50_PIN_20709-050EC_PAD_4',

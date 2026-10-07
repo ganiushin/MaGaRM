@@ -19,7 +19,7 @@
 
 | Папка | Содержимое |
 |---|---|
-| [`cad/parts/`](cad/parts) | все 27 печатных деталей: STL для печати и STEP для правок, `parts.json` |
+| [`cad/parts/`](cad/parts) | все 26 печатных деталей: STL для печати и STEP для правок, `parts.json` |
 | [`cad/scripts/`](cad/scripts) | скрипты, которые строят детали, URDF и 3D-модель из исходной сборки (build123d) |
 | [`cad/motors/`](cad/motors) | официальные STEP-модели моторов Damiao |
 | [`urdf/`](urdf) | `magarm.urdf` с сетками, массами и инерциями из CAD |

@@ -41,9 +41,9 @@
   </link>
   <link name="link4">
     <inertial>
-      <origin xyz="-0.0219284 -0.00225627 0.0225216" rpy="0 0 0"/>
-      <mass value="0.6634"/>
-      <inertia ixx="0.000790723" ixy="3.30645e-05" ixz="0.000474176" iyy="0.00125052" iyz="-3.42439e-05" izz="0.000719523"/>
+      <origin xyz="-0.0217537 -0.00228743 0.0229284" rpy="0 0 0"/>
+      <mass value="0.6543"/>
+      <inertia ixx="0.000778009" ixy="3.28031e-05" ixz="0.000477614" iyy="0.00123868" iyz="-3.48528e-05" izz="0.000715628"/>
     </inertial>
     <visual><geometry><mesh filename="meshes/link4.stl"/></geometry><material name="grey"/></visual>
     <collision><geometry><mesh filename="meshes/link4.stl"/></geometry></collision>
