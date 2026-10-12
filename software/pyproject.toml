@@ -3,7 +3,7 @@ name = "magarm"
 version = "0.1.0"
 description = "MaGaRM arm control over CAN (Damiao + RobStride EL05)"
 requires-python = ">=3.10"
-license = "MIT"
+license = "CC0-1.0"
 dependencies = ["python-can>=4.3", "numpy"]
 
 [project.optional-dependencies]
