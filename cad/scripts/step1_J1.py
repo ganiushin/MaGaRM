@@ -10,9 +10,10 @@ Numbers (official Damiao model DM-JH17-2EC, axis +Y, output face at y = 30):
 New L1_base: foot 95 x 95 x 7 with the old hole pattern (4x Ø6.5 on 75 x 75), tower Ø92 with a top ring 8 thick.
 The motor goes in from below and is screwed to the underside of the ring through it (8x M3x12, heads sunk in the
 ring); the output flange stands 3 mm above the ring. Two windows in the tower face the connectors (±X).
-The J1 axis moves to (-9, -40.875): under the J2 axis and under the front ring of the shoulder housing (step 2),
-so the shoulder is symmetric about J1 and the arm runs 43.1 mm beside it.
+The J1 axis is at (-9, 0): under the J2 axis, in the mid-plane of the arm (the shoulder fork of step 2 stands on it).
+The J1 output face is 61 below the J2 axis: fork floor 15 + the Ø88.8 drum of the arm with the J2 motor in it.
 Everything else is lifted 0.75 mm, as in the previous revision: the later steps use those arm coordinates.
+The teleoperation handles of the base assembly (handle, handle_m) are dropped.
 Usage: python step1_J1.py <base_assembly.step> <DM-JH17-2EC.stp> <out_dir>
 """
 import sys, os, math
@@ -20,11 +21,11 @@ from build123d import *
 
 SRC, MOTOR, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 os.makedirs(OUT, exist_ok=True)
-J1X, J1Y = -9.0, -40.875         # J1 axis (vertical)
-Z_OUT = 16.75                    # J1 output face: 54 below the J2 axis (z = 70.75)
-Z_TABLE = -66.0
+J1X, J1Y = -9.0, 0.0             # J1 axis (vertical), in the mid-plane of the arm
+Z_OUT = 9.75                     # J1 output face: 61 below the J2 axis (z = 70.75)
+Z_TABLE = Z_OUT - 82.75
 RING = 8.0                       # top ring; the output flange (11 proud of the body) stands 3 above it
-Z_TOP = Z_OUT - 11.0 + RING      # ring top, 13.75
+Z_TOP = Z_OUT - 11.0 + RING      # ring top
 R_OUT, R_IN, R_OPEN = 46.0, 41.0, 32.0      # tower, bore for the Ø80 body, opening for the Ø62 flange
 FOOT, FOOT_T, FOOT_HOLES = 95.0, 7.0, 37.5
 WIN_Y, WIN_Z = 24.0, 20.0        # connector windows
@@ -79,10 +80,10 @@ m = Compound(import_step(MOTOR).solids())
 m = turn_output(m, 45.0)         # output holes to ±30/±60/±120/±150 about J1, pins to 0/90/180/270 (shoulder pattern, step 2)
 m = m.rotate(Axis.X, 90).moved(Location((J1X, J1Y, Z_OUT - 30.0)))      # axis up, connectors at ±X
 m = Compound(m.solids()); m.label = 'DM-JH17-J1'
-log.append('RS00-L1, 6707 and the old base dropped; DM-JH17-101-2EC (official model) under the ring, connectors toward the windows')
+log.append('RS00-L1, 6707, the old base and the teleop handles dropped; DM-JH17-101-2EC (official model) under the ring, connectors toward the windows')
 
 # ---------------- everything else keeps the arm height of the previous revision ----------------
-parts = [p for p in parts if p[0] not in ('L1_base', '6707', 'RS00-L1')]
+parts = [p for p in parts if p[0] not in ('L1_base', '6707', 'RS00-L1', 'handle', 'handle_m')]
 for p in parts: p[1] = p[1].moved(Location((0, 0, LIFT)))
 parts += [['L1_base', b], ['DM-JH17-J1', m]]
 log.append(f'all other parts lifted {LIFT:+.2f} mm (arm coordinates of the later steps)')

@@ -101,7 +101,7 @@ for nm in ('L4_right', 'L4_left'):
     log.append(f'{nm}: crossbar concave face re-cut to r {RO + 0.5} ({v0 - p[1].volume:.0f} mm3 removed)')
 
 # ---------------- J5 unit moves out ----------------
-ARM = {'L1_base', 'L2_base', 'L2_cover', 'L3-motor', 'L3_back', 'L4_right', 'L4_left', '6704', '6705',
+ARM = {'L1_base', 'L2_base', 'L2_cheek', 'L3-motor', 'L3_back', 'L4_right', 'L4_left', '6704', '6705',
        'DM-JH17-J1', 'DM-JH17-J2', 'DM4340P-J3', 'L5_motor', 'L5_back', 'EL05_L4'}
 moved = []
 for p in parts:

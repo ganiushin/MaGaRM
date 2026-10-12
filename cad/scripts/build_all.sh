@@ -13,4 +13,4 @@ $PY step5_logo.py $B/step4/magarm_step4_gripper.step $B/step5
 uv run -q --python 3.12 --with build123d --with trimesh --with networkx python export_parts.py $B/step5/magarm_step5_logo.step ../parts
 uv run -q --python 3.12 --with build123d --with numpy --with trimesh python -I make_urdf.py $B/step5/magarm_step5_logo.step ../../urdf ../../sim
 uv run -q --python 3.12 --with mujoco --with numpy python -I ../../sim/make_mjcf.py
-uv run -q --python 3.12 --with build123d --with trimesh --with networkx python make_viewer.py $B/step5/magarm_step5_logo.step ../../viewer 2
+uv run -q --python 3.12 --with build123d --with trimesh --with networkx python make_viewer.py $B/step5/magarm_step5_logo.step ../../viewer 3.5

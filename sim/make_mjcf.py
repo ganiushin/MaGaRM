@@ -31,7 +31,7 @@ ARMATURE = {'joint1': 0.1, 'joint2': 0.1, 'joint3': 0.02, 'joint4': 0.02, 'joint
 FRICTION = {'joint1': 1.0, 'joint2': 1.0}
 COLORS = {'grey': '0.3 0.31 0.34 1', 'blue': '0.27 0.55 0.9 1'}
 WRIST_FOVY = 70                                         # deg, vertical: a 100 deg diagonal lens at 4:3 (docs/bom.md)
-KEYS = {'folded': [0, 0, -0.0349, 0, 0, 0],          # CAD pose; arm joints 1-6, gripper open
+KEYS = {'folded': [0, 0, -0.0611, 0, 0, 0],          # CAD pose; arm joints 1-6, gripper open
         'ready': [0, 1.85, -1.78, 1.5, 0, 0]}           # tcp 25 cm out over the work area (-X), 15 cm up, jaws down
 
 GRIP = json.load(open(SIM / 'gripper.json'))
@@ -146,7 +146,6 @@ for side in 'lr':
                   damping='0.5')
     geoms(b, f'jaw_{side}', COLORS['blue'])
     geoms(b, f'pad_{side}', '0.15 0.15 0.15 1', cls='pad')
-    geoms(b, f'handle_{side}', COLORS['grey'], collide=False)
     b = ET.SubElement(bodies['gripper_link'], 'body', name=f'rod_{side}', pos=f(rod['pos']))
     inertial(b, rod['com'], rod['mass'], rod['inertia'])
     ET.SubElement(b, 'joint', name=f'rod_{side}', axis='1 0 0', damping='0.001')

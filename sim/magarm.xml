@@ -28,30 +28,28 @@
     <mesh name="link6_static" file="assets/link6_static.stl" />
     <mesh name="jaw_l" file="assets/jaw_l.stl" />
     <mesh name="pad_l" file="assets/pad_l.stl" />
-    <mesh name="handle_l" file="assets/handle_l.stl" />
     <mesh name="jaw_r" file="assets/jaw_r.stl" />
     <mesh name="pad_r" file="assets/pad_r.stl" />
-    <mesh name="handle_r" file="assets/handle_r.stl" />
     <mesh name="rod_l" file="assets/rod_l.stl" />
     <mesh name="rod_r" file="assets/rod_r.stl" />
   </asset>
   <worldbody>
     <body name="base_link" childclass="magarm">
-      <inertial pos="-4.52737e-06 1.84001e-05 0.0486051" mass="1.0768" fullinertia="0.000849832 0.000843317 0.000965692 -1.11409e-07 -2.18358e-09 1.23198e-06" />
+      <inertial pos="-4.52737e-06 1.84001e-05 0.0486051" mass="1.0768" fullinertia="0.000849832 0.000843317 0.000965692 -1.11409e-07 -2.18357e-09 1.23198e-06" />
       <geom class="visual" mesh="base_link" rgba="0.3 0.31 0.34 1" />
       <geom class="collision" mesh="base_link" />
       <body name="link1" pos="0 0 0.08275">
         <joint name="joint1" axis="0 0 1" range="-2.79253 2.79253" armature="0.1" actuatorfrcrange="-54 54" frictionloss="1" />
-        <inertial pos="-4.42421e-06 -0.0264427 0.0525292" mass="1.1021" fullinertia="0.000948437 0.00100925 0.000881661 -5.56915e-09 1.18515e-07 4.36165e-05" />
+        <inertial pos="2.46476e-09 -0.00727928 0.025629" mass="0.1189" fullinertia="0.000210602 0.000119699 0.000184299 0 0 2.09783e-05" />
         <geom class="visual" mesh="link1" rgba="0.27 0.55 0.9 1" />
         <geom class="collision" mesh="link1" />
-        <body name="link2" pos="0 0.040875 0.054">
+        <body name="link2" pos="0 0 0.061">
           <joint name="joint2" axis="0 -1 0" range="0 3.49066" armature="0.1" actuatorfrcrange="-54 54" frictionloss="1" />
-          <inertial pos="0.152598 -0.00240536 9.70076e-06" mass="0.5877" fullinertia="0.000335631 0.00284563 0.00285201 7.61254e-06 1.5913e-07 -1.45039e-07" />
+          <inertial pos="0.0567126 -0.00426111 -9.87008e-06" mass="1.5728" fullinertia="0.00106506 0.0122876 0.0121907 -0.000154816 -1.70305e-06 1.0606e-06" />
           <geom class="visual" mesh="link2" rgba="0.3 0.31 0.34 1" />
           <geom class="collision" mesh="link2" />
           <body name="link3" pos="0.19 0 0">
-            <joint name="joint3" axis="0 -1 0" range="-4.01426 -0.0349" armature="0.02" actuatorfrcrange="-27 27" />
+            <joint name="joint3" axis="0 -1 0" range="-4.01426 -0.0611" armature="0.02" actuatorfrcrange="-27 27" />
             <inertial pos="-0.0707696 0.000269438 0.0546642" mass="0.205" fullinertia="0.000278723 0.000966204 0.000973204 1.98366e-05 0.000124882 -5.75771e-06" />
             <geom class="visual" mesh="link3" rgba="0.27 0.55 0.9 1" />
             <geom class="collision" mesh="link3" />
@@ -88,22 +86,20 @@
                     </body>
                   </body>
                   <body name="jaw_l" pos="-0.10776 0.071494 0.01525">
-                    <inertial pos="-0.0212888 -0.00128094 -0.0238396" mass="0.0368239" fullinertia="1.89473e-05 2.68593e-05 1.55797e-05 -3.70172e-06 -1.78695e-07 1.29206e-06" />
+                    <inertial pos="-0.0224477 -0.0036764 -0.0158106" mass="0.0259388" fullinertia="5.21749e-06 1.47739e-05 1.35899e-05 -3.45714e-06 -1.00346e-06 -2.71412e-07" />
                     <joint name="jaw_l" type="slide" axis="0 1 0" range="-0.0465957 0.00449014" damping="0.5" />
                     <geom class="visual" mesh="jaw_l" rgba="0.27 0.55 0.9 1" />
                     <geom class="collision" mesh="jaw_l" />
                     <geom class="visual" mesh="pad_l" rgba="0.15 0.15 0.15 1" />
                     <geom class="pad" mesh="pad_l" />
-                    <geom class="visual" mesh="handle_l" rgba="0.3 0.31 0.34 1" />
                   </body>
                   <body name="jaw_r" pos="-0.10776 -0.071494 -0.01525">
-                    <inertial pos="-0.0212888 0.00128094 0.00628669" mass="0.0368239" fullinertia="1.86989e-05 2.66109e-05 1.55797e-05 3.70172e-06 7.20546e-08 -1.30918e-06" />
+                    <inertial pos="-0.0224477 0.0036764 0.014159" mass="0.0259388" fullinertia="5.18789e-06 1.47443e-05 1.35899e-05 3.45714e-06 -7.36764e-07 2.21329e-07" />
                     <joint name="jaw_r" type="slide" axis="0 1 0" range="-0.00449014 0.0465957" damping="0.5" />
                     <geom class="visual" mesh="jaw_r" rgba="0.27 0.55 0.9 1" />
                     <geom class="collision" mesh="jaw_r" />
                     <geom class="visual" mesh="pad_r" rgba="0.15 0.15 0.15 1" />
                     <geom class="pad" mesh="pad_r" />
-                    <geom class="visual" mesh="handle_r" rgba="0.3 0.31 0.34 1" />
                   </body>
                 </body>
               </body>
@@ -138,7 +134,7 @@
     <framequat name="tcp_quat" objtype="site" objname="tcp" />
   </sensor>
   <keyframe>
-    <key name="folded" qpos="0 0 -0.0349 0 0 0 -0.414516 0.689251 0.689251 0.00449014 -0.00449014" ctrl="0 0 -0.0349 0 0 0 -0.414516" />
+    <key name="folded" qpos="0 0 -0.0611 0 0 0 -0.414516 0.689251 0.689251 0.00449014 -0.00449014" ctrl="0 0 -0.0611 0 0 0 -0.414516" />
     <key name="ready" qpos="0 1.85 -1.78 1.5 0 0 -0.414516 0.689251 0.689251 0.00449014 -0.00449014" ctrl="0 1.85 -1.78 1.5 0 0 -0.414516" />
   </keyframe>
 </mujoco>

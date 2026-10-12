@@ -12,11 +12,11 @@
  {
   "file": "L3_motor",
   "note": "upper arm, motor side",
-  "volume_cm3": 161.1,
+  "volume_cm3": 149.1,
   "size_mm": [
-   265.0,
-   35.0,
-   75.0
+   271.9,
+   35.5,
+   88.8
   ]
  },
  {
@@ -42,11 +42,11 @@
  {
   "file": "L3_back",
   "note": "upper arm, back side",
-  "volume_cm3": 162.2,
+  "volume_cm3": 165.7,
   "size_mm": [
-   265.0,
-   37.6,
-   75.0
+   271.9,
+   40.6,
+   88.8
   ]
  },
  {
@@ -100,16 +100,6 @@
   ]
  },
  {
-  "file": "handle_m",
-  "note": "teleop handle, mirrored (optional)",
-  "volume_cm3": 16.0,
-  "size_mm": [
-   8.0,
-   40.0,
-   87.0
-  ]
- },
- {
   "file": "gripper_frame",
   "note": "jaw frame / rail carrier",
   "volume_cm3": 29.4,
@@ -117,16 +107,6 @@
    25.0,
    191.0,
    60.0
-  ]
- },
- {
-  "file": "handle",
-  "note": "teleop handle (optional)",
-  "volume_cm3": 16.0,
-  "size_mm": [
-   8.0,
-   40.0,
-   87.0
   ]
  },
  {
@@ -231,22 +211,22 @@
  },
  {
   "file": "L2_base",
-  "note": "shoulder housing: J1 turntable, J2 motor shell",
-  "volume_cm3": 148.2,
+  "note": "shoulder fork: floor on J1, motor-side cheek",
+  "volume_cm3": 136.6,
   "size_mm": [
-   90.0,
-   111.0,
-   99.0
+   70.0,
+   83.8,
+   96.0
   ]
  },
  {
-  "file": "L2_cover",
-  "note": "shoulder housing rear lid",
-  "volume_cm3": 24.0,
+  "file": "L2_cheek",
+  "note": "shoulder fork cheek with the 6705 seat",
+  "volume_cm3": 38.2,
   "size_mm": [
-   90.0,
-   16.0,
-   90.0
+   70.0,
+   10.0,
+   85.0
   ]
  },
  {

@@ -1,7 +1,7 @@
 """Build viewer/model.json (meshes for the three.js viewer) from the final assembly.
 
 Usage: python make_viewer.py <magarm_step5_logo.step> <viewer_dir> [j3_open_deg]
-The forearm and everything after it is shown opened by j3_open_deg about J3 (default 2°: the fold stop).
+The forearm and everything after it is shown opened by j3_open_deg about J3 (default 3.5°: the fold stop).
 """
 import sys, os, json, base64, tempfile
 import numpy as np
@@ -10,10 +10,10 @@ from build123d import *
 from export_parts import PRINTED
 
 SRC, OUT = sys.argv[1], sys.argv[2]
-J3_OPEN = float(sys.argv[3]) if len(sys.argv) > 3 else 2.0
-FIXED3 = {'L1_base', 'L2_base', 'L2_cover', 'L3-motor', 'L3_back', '6705', 'DM-JH17-J1', 'DM-JH17-J2', 'DM4340P-J3'}
-NEW = {'L1_base', 'L2_base', 'L2_cover', 'L3-motor', 'L3_back', 'L4_right', 'L4_left', 'L5_motor', 'L5_back', 'L7_motor', 'rack', 'crank'}
-DARK = {'L3_back', 'L4_left', 'L5_back', 'L7_cover', 'handle', 'handle_m', 'jaw_2', 'jaw_2_m'}
+J3_OPEN = float(sys.argv[3]) if len(sys.argv) > 3 else 3.5
+FIXED3 = {'L1_base', 'L2_base', 'L2_cheek', 'L3-motor', 'L3_back', '6705', 'DM-JH17-J1', 'DM-JH17-J2', 'DM4340P-J3'}
+NEW = {'L1_base', 'L2_base', 'L2_cheek', 'L3-motor', 'L3_back', 'L4_right', 'L4_left', 'L5_motor', 'L5_back', 'L7_motor', 'rack', 'crank'}
+DARK = {'L3_back', 'L4_left', 'L5_back', 'L7_cover', 'jaw_2', 'jaw_2_m'}
 BOUGHT = {'MANIFOLD_SOLID_BREP_40_1': 'rail MGN7', 'MANIFOLD_SOLID_BREP_39_1': 'carriage MGN7C',
           'MD0603901_exportMA2': 'camera', 'ID_50_PIN_20709-050EC_PAD_4': 'camera board',
           '6704': 'bearing 6704', '6705': 'bearing 6705'}

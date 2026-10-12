@@ -11,14 +11,18 @@ SRC, OUT = sys.argv[1], sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
 FONT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fonts', 'RussoOne-Regular.ttf')
 TEXT, DEPTH, MAX_W, MAX_H = 'MaGaRM', 0.8, 95.0, 22.0
+X_FROM, MARGIN = 48.0, 4.0        # the flat of the beam is used past the connector window at its root
 
 a = import_step(SRC)
 parts = [[c.label, c] for c in a.children]
 p = [p for p in parts if p[0] == 'L3_back'][0]
 arm = p[1].solids()[0]
-flat = max((f for f in arm.faces() if f.geom_type == GeomType.PLANE and f.normal_at().Y > 0.99), key=lambda f: f.area)
+flat = max((f for f in arm.faces() if f.geom_type == GeomType.PLANE and f.normal_at().Y > 0.99 and f.bounding_box().size.X > 100),
+           key=lambda f: f.area)             # the side of the beam, not the ends of the drums
 bb = flat.bounding_box()
-cx, cz, y = (bb.min.X + bb.max.X) / 2, (bb.min.Z + bb.max.Z) / 2, bb.min.Y
+x0 = max(bb.min.X, X_FROM)
+cx, cz, y = (x0 + bb.max.X) / 2, (bb.min.Z + bb.max.Z) / 2, bb.min.Y
+MAX_W = min(MAX_W, bb.max.X - x0 - 2 * MARGIN)
 # text in a local sketch, scaled to fit, then placed on the flat: reads left to right seen from +Y, upright
 txt = Text(TEXT, font_size=20, font_path=FONT, align=(Align.CENTER, Align.CENTER))
 tb = txt.bounding_box()

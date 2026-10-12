@@ -65,7 +65,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
   <aside>
     <div>
       <h1>MaGaRM</h1>
-      <p class="sub">Шестиосевая рука с захватом и камерой на запястье, вся из пластика. Моторы Damiao и RobStride на одной CAN-шине. Вид в нулевой позе, J3 приоткрыт на 2° (упор складывания).</p>
+      <p class="sub">Шестиосевая рука с захватом и камерой на запястье, вся из пластика. Моторы Damiao и RobStride на одной CAN-шине. Вид в нулевой позе, J3 приоткрыт на 3.5° (упор складывания).</p>
     </div>
     <div>
       <h2>Цвета</h2>
@@ -90,7 +90,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
       <h2>Узлы</h2>
       <table>
         <tr><td>Основание: башня с кольцом, мотор J1 снизу на 8×M3, окна под разъёмы XT30</td><td>Ø92</td></tr>
-        <tr><td>Плечо: корпус вокруг мотора J2 на выходе J1, рука сбоку на фланце</td><td>Ø90</td></tr>
+        <tr><td>Плечо: вилка на выходе J1, мотор J2 в барабане на конце плеча, вторая щека с подшипником 6705</td><td>Ø89</td></tr>
         <tr><td>Вилка J3 и плечо шире, зазоры с обеих сторон</td><td>1,75 мм</td></tr>
         <tr><td>Запястье: корпус-барабан, мотор на 4 задних винтах</td><td>Ø63</td></tr>
         <tr><td>Захват: стакан под H3510, рама на фланце через термовставки</td><td>Ø46 / Ø60</td></tr>
@@ -103,7 +103,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
       <table>
         <tr><td>J1</td><td>±160°</td></tr>
         <tr><td>J2</td><td>0…200°</td></tr>
-        <tr><td>J3</td><td>−230…−2°</td></tr>
+        <tr><td>J3</td><td>−230…−3.5°</td></tr>
         <tr><td>J4</td><td>−50…+90°</td></tr>
         <tr><td>J5, J6, захват</td><td>±90°</td></tr>
       </table>
@@ -131,7 +131,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
-const MOD = new Set(['L1_base','L2_base','L2_cover','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L7_motor','gripper_frame','gripper_crank']);
+const MOD = new Set(['L1_base','L2_base','L2_cheek','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L7_motor','gripper_frame','gripper_crank']);
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));

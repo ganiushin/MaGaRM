@@ -4,7 +4,7 @@ Usage: python make_urdf.py <magarm_step5_logo.step> <urdf_dir> [<sim_dir>]
 Frames: every link frame is parallel to base_link and sits on its joint axis (zero pose = CAD pose, arm folded).
 Joint axes and signs follow the motor directions used by the firmware (see software/magarm/config.py).
 Masses: printed parts PLA at ~55 % fill (0.68 g/cm3), motors with their datasheet mass, steel parts 7.8 g/cm3.
-The URDF keeps the gripper mechanism (jaws, rods, carriages, handles) lumped into link6. With <sim_dir> the moving
+The URDF keeps the gripper mechanism (jaws, rods, carriages) lumped into link6. With <sim_dir> the moving
 parts are also exported as separate bodies for the MuJoCo model (sim/make_mjcf.py): <sim_dir>/assets/*.stl and
 gripper.json with their frames, mass properties, the rod pivots and the wrist camera pose.
 """
@@ -19,13 +19,13 @@ from OCP.GeomAbs import GeomAbs_Cylinder
 SRC, OUT = sys.argv[1], sys.argv[2]
 SIM = sys.argv[3] if len(sys.argv) > 3 else None
 os.makedirs(OUT + '/meshes', exist_ok=True)
-BASE = np.array([-9.0, -40.875, -66.0])     # CAD point of base_link: J1 axis at table level (mm)
+BASE = np.array([-9.0, 0.0, -73.0])     # CAD point of base_link: J1 axis at table level (mm)
 AZ = 134.75                                  # J4 / J6 axis height
 # joint: (CAD point mm, axis, lower, upper, effort Nm, velocity rad/s)
 JOINTS = [
-    ('joint1', 'base_link', 'link1', (-9.0, -40.875, 16.75), (0, 0, 1), -2.79253, 2.79253, 54.0, 3.14),   # DM-JH17-101: 54 Nm, 30 rpm
-    ('joint2', 'link1', 'link2', (-9.0, 0, 70.75), (0, -1, 0), 0.0, 3.49066, 54.0, 3.14),          # 200°: beyond it the arm beam meets the turntable
-    ('joint3', 'link2', 'link3', (181.0, 0, 70.75), (0, -1, 0), -4.01426, -0.0349, 27.0, 5.8),     # last 2° of the fold blocked
+    ('joint1', 'base_link', 'link1', (-9.0, 0.0, 9.75), (0, 0, 1), -2.79253, 2.79253, 54.0, 3.14),   # DM-JH17-101: 54 Nm, 30 rpm
+    ('joint2', 'link1', 'link2', (-9.0, 0, 70.75), (0, -1, 0), 0.0, 3.49066, 54.0, 3.14),          # 200°: the arm beam meets the fork floor at 207°
+    ('joint3', 'link2', 'link3', (181.0, 0, 70.75), (0, -1, 0), -4.01426, -0.0611, 27.0, 5.8),     # last 3.5° of the fold blocked (wrist on the J2 drum)
     ('joint4', 'link3', 'link4', (-4.0, 0, AZ), (0, -1, 0), -0.8727, 1.5708, 27.0, 5.8),            # up-tilt 50° (drum roof)
     ('joint5', 'link4', 'link5', (-58.55, 0, 172.75), (0, 0, -1), -1.5708, 1.5708, 6.0, 22.0),
     ('joint6', 'link5', 'link6', (-51.74, 0, AZ), (1, 0, 0), -1.5708, 1.5708, 6.0, 22.0),
@@ -33,14 +33,14 @@ JOINTS = [
 ]
 LINKS = {
     'base_link': ['L1_base', 'DM-JH17-J1'],
-    'link1': ['L2_base', 'L2_cover', 'DM-JH17-J2'],
-    'link2': ['L3-motor', 'L3_back', '6705', 'DM4340P-J3'],
+    'link1': ['L2_base', 'L2_cheek'],
+    'link2': ['L3-motor', 'L3_back', '6705', 'DM-JH17-J2', 'DM4340P-J3'],
     'link3': ['L4_right', 'L4_left', '6704'],
     'link4': ['L5_motor', 'L5_back', 'DM4340-J4', 'L5_shake', 'EL05_L5'],
     'link5': ['L6_link', 'EL05_L6'],
     'link6': ['L7_base', 'L7_cover', 'L7_motor', 'DM-H3510-J7', 'rack', 'MANIFOLD_SOLID_BREP_39_1', 'MANIFOLD_SOLID_BREP_40_1',
               'Part_1', 'Part_2', 'MD0603901_exportMA2', 'ID_50_PIN_20709-050EC_PAD_4',
-              'jaw_1', 'jaw_1_m', 'jaw_2', 'jaw_2_m', 'link-1', 'link-2', 'handle', 'handle_m'],
+              'jaw_1', 'jaw_1_m', 'jaw_2', 'jaw_2_m', 'link-1', 'link-2'],
     'gripper_link': ['crank'],
 }
 MOTOR_KG = {'DM-JH17-J1': 0.985, 'DM-JH17-J2': 0.985, 'DM4340P-J3': 0.362, 'DM4340-J4': 0.362,
@@ -63,11 +63,12 @@ def props(shape):
     c = g.CentreOfMass(); m = g.MatrixOfInertia()
     return g.Mass(), np.array([c.X(), c.Y(), c.Z()]), np.array([[m.Value(i, j) for j in (1, 2, 3)] for i in (1, 2, 3)])
 
-def mesh(shape, o):
-    """OCC mesher on the whole shape (shared edges, no skipped faces), vertices relative to o"""
+def mesh(shape, o, coarse=False):
+    """OCC mesher on the whole shape (shared edges, no skipped faces), vertices relative to o.
+    coarse: for the motor models (threads and all), MuJoCo takes at most 200000 faces per mesh"""
     import tempfile, trimesh
     with tempfile.NamedTemporaryFile(suffix='.stl') as t:
-        export_stl(shape, t.name, tolerance=0.4, angular_tolerance=0.6)
+        export_stl(shape, t.name, tolerance=1.0 if coarse else 0.4, angular_tolerance=1.0 if coarse else 0.6)
         m = trimesh.load(t.name, process=False)
     return np.asarray(m.vertices) - o, np.asarray(m.faces)
 
@@ -87,7 +88,7 @@ def body(sel, o):
             rho = (7.8 * 0.6 if lab in STEEL else OTHER.get(lab, PLA)) * 1e-6
         m = rho * V
         items.append((m, c, I * rho)); mass += m; mom1 += m * c
-        meshes.append(mesh(sol, o))
+        meshes.append(mesh(sol, o, coarse=lab in MOTOR_KG))
     com = mom1 / mass
     Itot = np.zeros((3, 3))
     for m, c, I in items:
@@ -161,7 +162,7 @@ if SIM:
                 l = ad.Cylinder().Axis().Location(); pts.add((round(l.Y(), 3), round(l.Z(), 3)))
         assert len(pts) == 2, f'{lab}: pivots {pts}'
         return [np.array([x, y, z]) for y, z in sorted(pts, key=lambda p: abs(p[0]))]
-    SIDES = {'l': ('jaw_1', 'jaw_2', 'handle', 'link-2'), 'r': ('jaw_1_m', 'jaw_2_m', 'handle_m', 'link-1')}
+    SIDES = {'l': ('jaw_1', 'jaw_2', 'link-2'), 'r': ('jaw_1_m', 'jaw_2_m', 'link-1')}
     moving = {lab for v in SIDES.values() for lab in v} | {'MANIFOLD_SOLID_BREP_39_1'}
     o6, og = origin['link6'], origin['gripper_link']
     out = {}
@@ -174,11 +175,10 @@ if SIM:
                      'inertia': I.tolist(), 'meshes': list(geoms), **(extra or {})}
         print(f'{name:13s} mass {mass * 1000:.1f} g')
     put('link6', o6, o6, {'link6_static': lambda l, s: l in LINKS['link6'] and l not in moving})
-    for side, (jaw, pad, handle, rod) in SIDES.items():
+    for side, (jaw, pad, rod) in SIDES.items():
         crank_pin, jaw_pin = pins(rod)
         put(f'jaw_{side}', o6, jaw_pin, {f'jaw_{side}': lambda l, s, j=jaw, c=carriage(side): l == j or c(l, s),
-                                         f'pad_{side}': lambda l, s, p=pad: l == p,
-                                         f'handle_{side}': lambda l, s, h=handle: l == h})
+                                         f'pad_{side}': lambda l, s, p=pad: l == p})
         put(f'rod_{side}', og, crank_pin, {f'rod_{side}': lambda l, s, r=rod: l == r},
             {'end': list((jaw_pin - crank_pin) / 1000.0)})
     # wrist camera: the bracket holds it looking forward and down at 45 deg; eye at the centre of its front face

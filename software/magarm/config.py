@@ -1,6 +1,6 @@
 """MaGaRM joint table. Angles are in the URDF convention (urdf/magarm.urdf): q = direction * (motor - offset).
 
-Motors are zeroed in the CAD pose (tools/set_zero.py); joint3 is zeroed at its fold stop, 2° short of q = 0,
+Motors are zeroed in the CAD pose (tools/set_zero.py); joint3 is zeroed at its fold stop, 3.5° short of q = 0,
 hence its offset. Adjust `offset` if the zero pose was not exact and check `direction` once with tools/scan.py
 by moving each joint by hand: the reported q must grow in the direction of the URDF axis.
 """
@@ -25,8 +25,8 @@ class Joint:
 JOINTS = [
     Joint('joint1', 'damiao', 'DM-JH17-101', 0x01, 0x11, 1.0, 0.0, -2.79253, 2.79253, 40.0, 4.5),
     Joint('joint2', 'damiao', 'DM-JH17-101', 0x02, 0x12, 1.0, 0.0, 0.0, 3.49066, 60.0, 5.0),
-    Joint('joint3', 'damiao', 'DM-J4340P', 0x03, 0x13, 1.0, 0.0349,   # zeroed at the fold stop (q = -2°): offset = 0.0349 * direction
-           -4.01426, -0.0349, 50.0, 2.5),
+    Joint('joint3', 'damiao', 'DM-J4340P', 0x03, 0x13, 1.0, 0.0611,   # zeroed at the fold stop (q = -3.5°): offset = 0.0611 * direction
+           -4.01426, -0.0611, 50.0, 2.5),
     Joint('joint4', 'damiao', 'DM-J4340', 0x04, 0x14, 1.0, 0.0, -0.8727, 1.5708, 30.0, 1.5),
     Joint('joint5', 'robstride', 'EL05', 0x05, 0x00, 1.0, 0.0, -1.5708, 1.5708, 20.0, 1.0),
     Joint('joint6', 'robstride', 'EL05', 0x06, 0x00, 1.0, 0.0, -1.5708, 1.5708, 20.0, 1.0),

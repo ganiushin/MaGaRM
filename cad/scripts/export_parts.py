@@ -11,8 +11,8 @@ from watertight import make_watertight
 # assembly label -> (file name, note); the first instance of a label is exported
 PRINTED = {
     'L1_base': ('L1_base', 'base'),
-    'L2_base': ('L2_base', 'shoulder housing: J1 turntable, J2 motor shell'),
-    'L2_cover': ('L2_cover', 'shoulder housing rear lid'),
+    'L2_base': ('L2_base', 'shoulder fork: floor on J1, motor-side cheek'),
+    'L2_cheek': ('L2_cheek', 'shoulder fork cheek with the 6705 seat'),
     'L3-motor': ('L3_motor', 'upper arm, motor side'),
     'L3_back': ('L3_back', 'upper arm, back side'),
     'L4_right': ('L4_right', 'forearm, J4 motor side'),
@@ -32,8 +32,6 @@ PRINTED = {
     'jaw_1_m': ('jaw_1_m', 'jaw (mirrored)'),
     'jaw_2': ('jaw_pad', 'finger pad (TPU recommended)'),
     'jaw_2_m': ('jaw_pad_m', 'finger pad (mirrored)'),
-    'handle': ('handle', 'teleop handle (optional)'),
-    'handle_m': ('handle_m', 'teleop handle, mirrored (optional)'),
     'Part_1': ('camera_bracket', 'wrist camera bracket'),
     'Part_2': ('camera_clamp', 'wrist camera clamp'),
 }

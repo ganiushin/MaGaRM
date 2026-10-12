@@ -29,7 +29,7 @@ R_TUBE, R_BORE, R_FL = 23.0, 21.2, 30.0
 R_FS = 27.0                        # frame screws: countersunk heads clear of the Ø46 tube
 DC = (X_OUT + FL + 0.5) - (-146.2) # camera clamp front edge 0.5 behind the flange
 ROLL = 30.0                        # motor roll: rear holes 45° away from the L7_cover holes, connectors at 300°
-MECH = ('crank', 'rack', 'jaw_1', 'jaw_1_m', 'jaw_2', 'jaw_2_m', 'link-1', 'link-2', 'handle', 'handle_m',
+MECH = ('crank', 'rack', 'jaw_1', 'jaw_1_m', 'jaw_2', 'jaw_2_m', 'link-1', 'link-2',
         'MANIFOLD_SOLID_BREP_39_1', 'MANIFOLD_SOLID_BREP_40_1')
 CAM = ('Part_1', 'Part_2', 'MD0603901_exportMA2', 'ID_50_PIN_20709-050EC_PAD_4')
 

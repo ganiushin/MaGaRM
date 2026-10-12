@@ -30,7 +30,9 @@
       <geom type="cylinder" size="0.025 0.04" mass="0.08" rgba="0.2 0.6 0.3 1" friction="1 0.01 0.001"/>
     </body>
     <body name="plate" pos="-0.18 -0.2 0.002" mocap="true">
-      <geom type="cylinder" size="0.05 0.002" rgba="0.95 0.95 0.95 1"/>
+      <geom type="cylinder" size="0.05 0.002" rgba="0.95 0.95 0.95 1" contype="0" conaffinity="0"/>
+      <!-- collision: a box inside the disc. A cube landing tilted on the cylinder goes through it and is thrown aside -->
+      <geom type="box" size="0.035 0.035 0.002" group="3"/>
     </body>
   </worldbody>
 </mujoco>
