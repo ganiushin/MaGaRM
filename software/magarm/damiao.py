@@ -1,4 +1,4 @@
-"""Damiao (DM-J4340P, DM-J4340, DM-H3510) on CAN 2.0 standard frames, 1 Mbit/s, MIT mode.
+"""Damiao (DM-JH17-101, DM-J4340P, DM-J4340, DM-H3510) on CAN 2.0 standard frames, 1 Mbit/s, MIT mode.
 
 Frames
   command  : id = CAN_ID          data = p16 | v12 | kp12 | kd12 | t12   (big-endian bit packing)
@@ -17,6 +17,7 @@ KP_MAX, KD_MAX = 500.0, 5.0
 
 # default PMAX / VMAX / TMAX by model (24 V); read the real values from the motor with read_param_frame()
 LIMITS = {
+    'DM-JH17-101': (12.5, 5.0, 60.0),     # not factory defaults: set PMAX/VMAX/TMAX to these in the motor (54 Nm peak, 30 rpm)
     'DM-J4340P': (12.5, 10.0, 28.0),
     'DM-J4340': (12.5, 8.0, 28.0),
     'DM-H3510': (12.5, 280.0, 1.0),

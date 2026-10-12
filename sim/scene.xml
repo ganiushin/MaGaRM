@@ -1,0 +1,36 @@
+<!-- MaGaRM on a table with objects to grasp. The table top is the plane z = 0 (bottom of the base).
+     The work area is on the -X side: there the gripper points in the CAD pose and J1 (+-160 deg) has its full range. -->
+<mujoco model="magarm scene">
+  <include file="magarm.xml"/>
+
+  <statistic center="-0.2 0 0.15" extent="0.6"/>
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    <global azimuth="30" elevation="-25" offwidth="1280" offheight="960"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="table" builtin="checker" mark="edge" rgb1="0.82 0.78 0.72" rgb2="0.76 0.72 0.66"
+             markrgb="0.6 0.6 0.6" width="300" height="300"/>
+    <material name="table" texture="table" texuniform="true" texrepeat="10 10" reflectance="0.05"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0.3 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="table" type="plane" size="0.6 0.6 0.05" pos="-0.2 0 0" material="table"/>
+    <camera name="front" pos="-0.85 0 0.45" xyaxes="0 -1 0 0.45 0 0.89" fovy="55"/>
+
+    <body name="cube" pos="-0.30 -0.05 0.015">
+      <freejoint/>
+      <geom type="box" size="0.015 0.015 0.015" mass="0.03" rgba="0.85 0.2 0.2 1" friction="1 0.01 0.001"/>
+    </body>
+    <body name="can" pos="-0.28 0.12 0.04">
+      <freejoint/>
+      <geom type="cylinder" size="0.025 0.04" mass="0.08" rgba="0.2 0.6 0.3 1" friction="1 0.01 0.001"/>
+    </body>
+    <body name="plate" pos="-0.18 -0.2 0.002" mocap="true">
+      <geom type="cylinder" size="0.05 0.002" rgba="0.95 0.95 0.95 1"/>
+    </body>
+  </worldbody>
+</mujoco>

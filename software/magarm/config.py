@@ -23,8 +23,8 @@ class Joint:
 
 
 JOINTS = [
-    Joint('joint1', 'damiao', 'DM-J4340P', 0x01, 0x11, 1.0, 0.0, -2.79253, 2.79253, 40.0, 2.0),
-    Joint('joint2', 'damiao', 'DM-J4340P', 0x02, 0x12, 1.0, 0.0, 0.0, 3.66519, 60.0, 3.0),
+    Joint('joint1', 'damiao', 'DM-JH17-101', 0x01, 0x11, 1.0, 0.0, -2.79253, 2.79253, 40.0, 4.5),
+    Joint('joint2', 'damiao', 'DM-JH17-101', 0x02, 0x12, 1.0, 0.0, 0.0, 3.49066, 60.0, 5.0),
     Joint('joint3', 'damiao', 'DM-J4340P', 0x03, 0x13, 1.0, 0.0349,   # zeroed at the fold stop (q = -2°): offset = 0.0349 * direction
            -4.01426, -0.0349, 50.0, 2.5),
     Joint('joint4', 'damiao', 'DM-J4340', 0x04, 0x14, 1.0, 0.0, -0.8727, 1.5708, 30.0, 1.5),

@@ -4,3 +4,8 @@ __pycache__/
 .pytest_cache/
 # intermediate assemblies (100-200 MB each), rebuilt by cad/scripts/build_all.sh
 cad/build/
+# sim/demo.py frames
+sim/out/
+# logs
+*.log
+MUJOCO_LOG.TXT

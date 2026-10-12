@@ -12,10 +12,10 @@
  {
   "file": "L3_motor",
   "note": "upper arm, motor side",
-  "volume_cm3": 144.5,
+  "volume_cm3": 161.1,
   "size_mm": [
    265.0,
-   32.5,
+   35.0,
    75.0
   ]
  },
@@ -80,16 +80,6 @@
   ]
  },
  {
-  "file": "L2_base",
-  "note": "J1 turntable, J2 fork",
-  "volume_cm3": 98.7,
-  "size_mm": [
-   69.0,
-   76.8,
-   99.0
-  ]
- },
- {
   "file": "camera_bracket",
   "note": "wrist camera bracket",
   "volume_cm3": 45.7,
@@ -110,16 +100,6 @@
   ]
  },
  {
-  "file": "L1_base",
-  "note": "base",
-  "volume_cm3": 179.9,
-  "size_mm": [
-   95.0,
-   95.0,
-   79.5
-  ]
- },
- {
   "file": "handle_m",
   "note": "teleop handle, mirrored (optional)",
   "volume_cm3": 16.0,
@@ -137,16 +117,6 @@
    25.0,
    191.0,
    60.0
-  ]
- },
- {
-  "file": "L2_cover",
-  "note": "J2 fork cover",
-  "volume_cm3": 41.6,
-  "size_mm": [
-   69.0,
-   10.5,
-   85.0
   ]
  },
  {
@@ -247,6 +217,36 @@
    5.0,
    54.9,
    17.2
+  ]
+ },
+ {
+  "file": "L1_base",
+  "note": "base",
+  "volume_cm3": 134.9,
+  "size_mm": [
+   95.0,
+   95.0,
+   79.8
+  ]
+ },
+ {
+  "file": "L2_base",
+  "note": "shoulder housing: J1 turntable, J2 motor shell",
+  "volume_cm3": 148.2,
+  "size_mm": [
+   90.0,
+   111.0,
+   99.0
+  ]
+ },
+ {
+  "file": "L2_cover",
+  "note": "shoulder housing rear lid",
+  "volume_cm3": 24.0,
+  "size_mm": [
+   90.0,
+   16.0,
+   90.0
   ]
  },
  {

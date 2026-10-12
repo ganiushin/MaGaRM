@@ -41,7 +41,7 @@ class FakeMotors(threading.Thread):
 def test_move_to_virtual():
     fake = FakeMotors('vbus'); fake.start()
     with Arm(channel='vbus', interface='virtual') as arm:
-        assert arm.limits['joint1'] == dm.LIMITS['DM-J4340P']           # limits read back from the motors
+        assert arm.limits['joint1'] == dm.LIMITS['DM-JH17-101']          # limits read back from the motors
         arm.enable(); time.sleep(0.05)
         goal = np.array([0.3, 0.8, -1.0, 0.4, -0.5, 0.6, 0.2])
         arm.move_to(goal, duration=0.5)
