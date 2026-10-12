@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MaGaRM</title>
 <style>
 /* Layout: full-height 3D stage with a side panel (stacks under the stage on phones) */
@@ -13,17 +17,18 @@
 :root[data-theme="dark"]{
   --bg:#12161b; --panel:#191e25; --fg:#e6eaef; --muted:#97a2b0; --line:#2b333d;
   --stage:#0f1317; --accent:#5b9bf0; --motor:#f08a3e; --chip:#212833; color-scheme:dark}
-html,body{height:100%}
+html,body{height:100%;margin:0}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:14px}
 .app{display:grid;grid-template-columns:minmax(0,1fr) 320px;height:100%;gap:0}
 .stage{position:relative;background:var(--stage);min-height:60vh}
-#c{display:block;width:100%;height:100%}
+#c{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}
 .hud{position:absolute;left:16px;top:12px;display:flex;flex-wrap:wrap;gap:8px}
 .hud button{font:500 13px var(--font-ui);padding:6px 10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;cursor:pointer}
 .hud button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
 .hud button:focus-visible,.parts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .pick{position:absolute;left:16px;bottom:12px;font:13px var(--font-mono);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:6px;max-width:calc(100% - 32px)}
-.load{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font:13px var(--font-mono)}
+.load{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;color:var(--muted);font:13px var(--font-mono)}
 aside{background:var(--panel);border-left:1px solid var(--line);overflow:auto;padding-inline:16px;padding-block:16px;display:flex;flex-direction:column;gap:16px;min-width:0}
 h1{font-size:18px;margin:0;text-wrap:balance}
 .sub{color:var(--muted);margin:4px 0 0;line-height:1.45}
@@ -74,7 +79,8 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
     <div>
       <h2>Моторы</h2>
       <table>
-        <tr><td>J1 основание, J2 плечо, J3 локоть</td><td>DM-J4340P</td></tr>
+        <tr><td>J1 основание, J2 плечо</td><td>DM-JH17-101</td></tr>
+        <tr><td>J3 локоть</td><td>DM-J4340P</td></tr>
         <tr><td>J4 наклон запястья</td><td>DM-J4340</td></tr>
         <tr><td>J5, J6 запястье</td><td>RobStride EL05</td></tr>
         <tr><td>Захват</td><td>DM-H3510</td></tr>
@@ -83,18 +89,20 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
     <div>
       <h2>Узлы</h2>
       <table>
-        <tr><td>Основание: расточка под фланец Ø38, окна под разъёмы XT30</td><td>башня +7 мм</td></tr>
-        <tr><td>Вилки J2/J3 и плечо шире, зазоры с обеих сторон</td><td>1,75 мм</td></tr>
+        <tr><td>Основание: башня с кольцом, мотор J1 снизу на 8×M3, окна под разъёмы XT30</td><td>Ø92</td></tr>
+        <tr><td>Плечо: корпус вокруг мотора J2 на выходе J1, рука сбоку на фланце</td><td>Ø90</td></tr>
+        <tr><td>Вилка J3 и плечо шире, зазоры с обеих сторон</td><td>1,75 мм</td></tr>
         <tr><td>Запястье: корпус-барабан, мотор на 4 задних винтах</td><td>Ø63</td></tr>
         <tr><td>Захват: стакан под H3510, рама на фланце через термовставки</td><td>Ø46 / Ø60</td></tr>
-        <tr><td>Выходы моторов: 6×M3 на Ø27 и 3 штифта Ø4 (J1–J4)</td><td>Ø24</td></tr>
+        <tr><td>Выходы J1, J2: 8×M3 и 4 штифта Ø3</td><td>Ø54</td></tr>
+        <tr><td>Выходы J3, J4: 6×M3 на Ø27 и 3 штифта Ø4</td><td>Ø24</td></tr>
       </table>
     </div>
     <div>
       <h2>Ходы суставов</h2>
       <table>
         <tr><td>J1</td><td>±160°</td></tr>
-        <tr><td>J2</td><td>0…210°</td></tr>
+        <tr><td>J2</td><td>0…200°</td></tr>
         <tr><td>J3</td><td>−230…−2°</td></tr>
         <tr><td>J4</td><td>−50…+90°</td></tr>
         <tr><td>J5, J6, захват</td><td>±90°</td></tr>
@@ -123,7 +131,7 @@ ul{margin:0;padding-left:18px;line-height:1.5;color:var(--fg)}
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
-const MOD = new Set(['L1_base','L2_base','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L7_motor','gripper_frame','gripper_crank']);
+const MOD = new Set(['L1_base','L2_base','L2_cover','L3_motor','L3_back','L4_right','L4_left','L5_motor','L5_back','L7_motor','gripper_frame','gripper_crank']);
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -208,3 +216,4 @@ canvas.addEventListener('pointerup', e => {
 
 renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
 </script>
+</html>
